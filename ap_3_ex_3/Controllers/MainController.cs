@@ -13,5 +13,11 @@ namespace ap_3_ex_3.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult display(string ip, int port)
+        {
+            return View();
+        }
     }
 }
