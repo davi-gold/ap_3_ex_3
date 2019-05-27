@@ -16,10 +16,10 @@ namespace ap_3_ex_3
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Main", action = "display", id = UrlParameter.Optional }
             );
 
-            routes.MapRoute("display", "display/{ip}/{port}",
+            routes.MapRoute("display", "{controller}/display/{ip}/{port}",
                 defaults: new { Controller = "Main", action = "display" });
         }
     }
