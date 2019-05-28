@@ -6,11 +6,6 @@
 
 <html>
 <head>
-    <script>
-        var width = screen.width;
-        var height = screen.height;
-
-    </script>
     <style>
         img, canvas {
             min-height: 100%;
@@ -37,14 +32,25 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            margin: 0 auto 40px;
             background-color: #e74c3c;
         }
     </style>
 </head>
 <body>
+    <script>
+        var width = screen.width;
+        var height = screen.height;
+        var lon = '@ViewBag.lon'
+        var lat = '@ViewBag.lat'
+        lon = (lon + 180) * (360 / width);
+        lat = (lat + 90) * (180 / height);
+        '@ViewBag.lon' = lon;
+        '@ViewBag.lat' = lat;
+
+    </script>
     <img src="~/export-map-share.png" alt="pic">
-    <div class="circle"></div>
+    <div style="top:@(ViewBag.lon)%px; left:@(ViewBag.lat)%px;" class="circle"></div>
+    <a>@ViewBag.lon </a>
     <canvas id="canvas"></canvas>
 
 </body>

@@ -23,8 +23,8 @@ namespace ap_3_ex_3.Controllers
             Models.Client.Instance.connect(ip, port);
             lon = Models.Client.Instance.getLon();
             lat = Models.Client.Instance.getLat();
-           // Console.WriteLine(lon);
-           // Console.WriteLine(lat);
+           // Console.WriteLine("here is not ", lon);
+           // Console.WriteLine("here is lat ", lat);
             ViewBag.lon = lon;
             ViewBag.lat = lat;
 
