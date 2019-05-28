@@ -3,7 +3,6 @@
     ViewBag.Title = "display";
 }
 
-
 <html>
 <head>
     <style>
@@ -26,6 +25,7 @@
             height: 100%;
             overflow: hidden;
         }
+
         .circle {
             position: absolute;
             border: 1px solid black;
@@ -35,23 +35,24 @@
             background-color: #e74c3c;
         }
     </style>
-</head>
-<body>
+
     <script>
         var width = screen.width;
         var height = screen.height;
-        var lon = '@ViewBag.lon'
-        var lat = '@ViewBag.lat'
-        lon = (lon + 180) * (360 / width);
-        lat = (lat + 90) * (180 / height);
-        '@ViewBag.lon' = lon;
-        '@ViewBag.lat' = lat;
 
+        function normalize() {
+            var circle = document.getElementById("myCircle");
+            var lon = ('@ViewBag.lon' + 180) * (360 / width);
+            var lat = ('@ViewBag.lat' + 180) * (360 / width);
+            circle.style.top = lon;
+            circle.style.left = lat;
+        }
     </script>
-    <img src="~/export-map-share.png" alt="pic">
-    <div style="top:@(ViewBag.lon)%px; left:@(ViewBag.lat)%px;" class="circle"></div>
-    <a>@ViewBag.lon </a>
-    <canvas id="canvas"></canvas>
 
+</head>
+<body onload= "normalize()">
+    <img src="~/export-map-share.png" alt="pic">
+    <div class="circle" id="myCircle"></div>
+    <canvas id="canvas"></canvas>
 </body>
 </html>
