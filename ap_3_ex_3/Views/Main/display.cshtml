@@ -39,13 +39,14 @@
     <script>
         var width = screen.width;
         var height = screen.height;
-
         function normalize() {
             var circle = document.getElementById("myCircle");
-            var lon = ('@ViewBag.lon' + 180) * (360 / width);
-            var lat = ('@ViewBag.lat' + 180) * (360 / width);
-            circle.style.top = lon;
-            circle.style.left = lat;
+            var lon = (parseFloat('@ViewBag.lon') + 180) * (360 / height);
+            var lat = (parseFloat('@ViewBag.lat') + 90) * (180 / width);
+            window.alert('@ViewBag.lat');
+            window.alert(lat);
+            circle.style.top = String(lon) + "px";
+            circle.style.left = String(lat) + "px";
         }
     </script>
 
