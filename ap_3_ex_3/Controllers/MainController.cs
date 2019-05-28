@@ -18,11 +18,12 @@ namespace ap_3_ex_3.Controllers
         [HttpGet]
         public ActionResult display(string ip, int port)
         {
-            new Thread(() =>
-            {
-                Models.Client.Instance.connect(ip, port);
-            }).Start();
-            
+            Models.Client.Instance.connect(ip, port);
+            string lon = Models.Client.Instance.getLon();
+            string lat = Models.Client.Instance.getLat();
+            Console.WriteLine(lon);
+            Console.WriteLine(lat);
+
             return View();
         }
     }
