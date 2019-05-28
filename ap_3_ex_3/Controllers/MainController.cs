@@ -15,14 +15,18 @@ namespace ap_3_ex_3.Controllers
             return View();
         }
 
+        double lon;
+        double lat;
         [HttpGet]
         public ActionResult display(string ip, int port)
         {
             Models.Client.Instance.connect(ip, port);
-            string lon = Models.Client.Instance.getLon();
-            string lat = Models.Client.Instance.getLat();
-            Console.WriteLine(lon);
-            Console.WriteLine(lat);
+            lon = Models.Client.Instance.getLon();
+            lat = Models.Client.Instance.getLat();
+           // Console.WriteLine(lon);
+           // Console.WriteLine(lat);
+            ViewBag.lon = lon;
+            ViewBag.lat = lat;
 
             return View();
         }

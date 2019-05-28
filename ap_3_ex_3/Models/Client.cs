@@ -12,8 +12,8 @@ namespace ap_3_ex_3.Models
     public class Client
     {
         TcpClient tcpClient;
-        const string getLonCommand = "get /position/longitude-deg";
-        const string getLatCommand = "get /position/latitude-deg";
+        const string getLonCommand = "get /position/longitude-deg\r\n";
+        const string getLatCommand = "get /position/latitude-deg\r\n";
 
         public bool isConnected
         {
@@ -38,9 +38,9 @@ namespace ap_3_ex_3.Models
 
         public void connect(string ip, int port)
         {
-            Int32 p = Convert.ToInt32(port); // client port
+            //Int32 p = Convert.ToInt32(port); // client port
             string server = ip; // server ip
-            tcpClient = new TcpClient(server, p);
+            tcpClient = new TcpClient(server, port);
             Console.WriteLine("Command channel :You are connected");
             isConnected = true;
 
@@ -51,19 +51,31 @@ namespace ap_3_ex_3.Models
             throw new NotImplementedException();
         }
 
-        public string getLon()
+        public double getLon()
         {
-            string lon = sendStream(getLonCommand);
+            string response = sendStream(getLonCommand);
+            double lon = makeDouble(response);
             return lon;
         }
 
 
-        public string getLat()
+        public double getLat()
         {
-            string lat = sendStream(getLatCommand);
+            string response = sendStream(getLatCommand);
+            double lat = makeDouble(response);
             return lat;
         }
 
+        public double makeDouble(string response)
+        {
+            int index = response.IndexOf("'");
+            response = response.Substring(index + 1);
+            index = response.IndexOf("'");
+            int count = response.Length;
+            response = response.Remove(index, count - index);
+            double dLon = Convert.ToDouble(response);
+            return dLon;
+        }
 
         public string sendStream(string message)
         {
