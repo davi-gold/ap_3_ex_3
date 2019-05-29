@@ -16,23 +16,26 @@ namespace ap_3_ex_3.Controllers
             return View();
         }
 
-        double lon;
-        double lat;
-
         [HttpGet]
         public ActionResult display(string ip, int port, int? time)
         {
             Models.Client.Instance.connect(ip, port);
             if (time == null)
-            {
                 Session["timer"] = 0;
-                return View();
-            }
             else
                 Session["timer"] = time;
             return View();
         }
 
+        [HttpPost]
+        public string getLonAndLat()
+        {
+            string lon = Models.Client.Instance.getLon().ToString();
+            string lat = Models.Client.Instance.getLat().ToString();
+            Console.WriteLine(lon);
+            Console.WriteLine(lat);
+            return ToXml(lon, lat);
+        }
 
         private string ToXml(string lat, string lon)
         {
@@ -42,23 +45,13 @@ namespace ap_3_ex_3.Controllers
 
             writer.WriteStartDocument();
 
-            writer.WriteStartElement("Coordinates:");
+            writer.WriteStartElement("Position");
             writer.WriteElementString("Lon", lon);
             writer.WriteElementString("Lat", lat);
             writer.WriteEndElement();
             writer.WriteEndDocument();
             writer.Flush();
             return sb.ToString();
-        }
-
-     
-        [HttpPost]
-        public string getLonAndLat()
-        {
-            string lon = Models.Client.Instance.getLon().ToString();
-            string lat = Models.Client.Instance.getLat().ToString();
-
-            return ToXml(lon, lat);
         }
     }
 }

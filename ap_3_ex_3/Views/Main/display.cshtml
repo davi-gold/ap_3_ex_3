@@ -12,31 +12,34 @@
     <img src="~/export-map-share.png" alt="pic">
     <canvas id="myCanvas"></canvas>
     <script>
-            func = (function () {
-                $.post("@Url.Action("getLonAndLat")").done(function (xml) {
+        func = (function () {
+        alert("@Url.Action("getLonAndLat")")
+            $.ajax({
+                type: "POST", url: "@Url.Action("getLonAndLat")", success: function (xml) {
                     var xmlDoc = $.parseXML(xml),
-                    $xml = $(xmlDoc),
-                    lon = $xml.find("Lon").text();
+                        $xml = $(xmlDoc),
+                        lon = $xml.find("Lon").text();
                     lat = $xml.find("Lat").text();
-
-                    window.alert("5");
+                  
                     var c = document.getElementById("myCanvas");
+                    alert(lon);
+                    alert(lat);
                     c.style.width = screen.width;
                     c.style.height = screen.height;
-                    var newLon = (parseFloat(lon) + 180) * (360 / c.height);
-                    var newLat = (parseFloat(lat) + 90) * (180 / c.width);
+                    alert("HEZI");
+                   // var newLon = (parseFloat(lon) + 180) * (360 / c.height);
+                   // var newLat = (parseFloat(lat) + 90) * (180 / c.width);
 
                     var ctx = c.getContext("2d");
                     ctx.beginPath();
-                    ctx.arc(newLat, newLon, 10, 0, 2 * Math.PI);
+                    ctx.arc(500, 500, 7, 0, 2 * Math.PI);
                     ctx.fillStyle = "red";
                     ctx.fill();
                     ctx.stroke();
                     ctx.closePath();
-                });
+                }});               
             });
-
-            if (@Session["timer"] != 0) {
+        if (@Session["timer"] != 0) {
                 var IntervalTime = 1000 / (@Session["timer"])
                 setInterval(func, IntervalTime);
             }
