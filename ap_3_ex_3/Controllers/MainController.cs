@@ -51,6 +51,7 @@ namespace ap_3_ex_3.Controllers
             return sb.ToString();
         }
 
+     
         [HttpPost]
         public string getLonAndLat()
         {

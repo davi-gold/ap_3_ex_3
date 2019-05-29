@@ -7,15 +7,19 @@
 <html>
 <head>
     <link href="~/Content/StyleDisplay.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <img src="~/export-map-share.png" alt="pic">
+    <canvas id="myCanvas"></canvas>
     <script>
-        function main() {
             func = (function () {
-                $.post('@Url.Action("getLonAndLat")').done(function (xml) {
+                $.post("@Url.Action("getLonAndLat")").done(function (xml) {
                     var xmlDoc = $.parseXML(xml),
-                        $xml = $(xmlDoc),
-                        lon = $xml.find("Lon").text();
+                    $xml = $(xmlDoc),
+                    lon = $xml.find("Lon").text();
                     lat = $xml.find("Lat").text();
 
+                    window.alert("5");
                     var c = document.getElementById("myCanvas");
                     c.style.width = screen.width;
                     c.style.height = screen.height;
@@ -28,19 +32,15 @@
                     ctx.fillStyle = "red";
                     ctx.fill();
                     ctx.stroke();
+                    ctx.closePath();
                 });
             });
 
             if (@Session["timer"] != 0) {
                 var IntervalTime = 1000 / (@Session["timer"])
                 setInterval(func, IntervalTime);
-                func();
             }
-        }
+            func();
     </script>
-</head>
-<body onload="main()">
-    <img src="~/export-map-share.png" alt="pic">
-    <canvas id="myCanvas"></canvas>
 </body>
 </html>
