@@ -13,26 +13,33 @@
     <canvas id="myCanvas"></canvas>
     <script>
         func = (function () {
-        alert("@Url.Action("getLonAndLat")")
             $.ajax({
                 type: "POST", url: "@Url.Action("getLonAndLat")", success: function (xml) {
                     var xmlDoc = $.parseXML(xml),
                         $xml = $(xmlDoc),
                         lon = $xml.find("Lon").text();
                     lat = $xml.find("Lat").text();
-                  
+
                     var c = document.getElementById("myCanvas");
-                    alert(lon);
-                    alert(lat);
                     c.style.width = screen.width;
                     c.style.height = screen.height;
-                    alert("HEZI");
-                   // var newLon = (parseFloat(lon) + 180) * (360 / c.height);
-                   // var newLat = (parseFloat(lat) + 90) * (180 / c.width);
-
+                    var pLon = parseFloat(lon);
+                    var pLat = parseFloat(lat);
+                    alert("LON: " + pLon);
+                    alert("LAT: " + pLat);
+                    var newLon = (pLon + 180) * (360 / c.height);
+                    var newLat = (pLat + 90) * (180 / c.width);
                     var ctx = c.getContext("2d");
                     ctx.beginPath();
-                    ctx.arc(500, 500, 7, 0, 2 * Math.PI);
+                    alert("NEW LON: " +newLon);
+                    alert("NEW LAT: " + newLat);
+                    alert("LAT IS NEGATIVE. LON IS OUT OF SCREEN. CHANGING...")
+                    newLon -= 383;
+                    newLat += 140;
+                    alert("NEW LON AFTER CHANGE: " + newLon);
+                    alert("NEW LAT AFTER CHANGE: " + newLat);
+                   
+                    ctx.arc(newLon, newLat, 5, 0, 2 * Math.PI); // drawing the circle
                     ctx.fillStyle = "red";
                     ctx.fill();
                     ctx.stroke();
