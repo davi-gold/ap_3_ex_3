@@ -21,6 +21,9 @@ namespace ap_3_ex_3
 
             routes.MapRoute("display", "display/{ip}/{port}",
                 defaults: new { Controller = "Main", action = "display" });
+
+            routes.MapRoute("display4", "display/{ip}/{port}/{time}",
+              defaults: new { Controller = "Main", action = "display", timer = "time" });
         }
     }
 }

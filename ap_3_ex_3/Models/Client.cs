@@ -31,6 +31,9 @@ namespace ap_3_ex_3.Models
                 return m_Instance;
             }
         }
+        public double lon { get; set; }
+        public double lat { get; set; }
+        public int time { get; set; }
         public Client()
         {
             isConnected = false;
@@ -54,7 +57,7 @@ namespace ap_3_ex_3.Models
         public double getLon()
         {
             string response = sendStream(getLonCommand);
-            double lon = makeDouble(response);
+            lon = makeDouble(response);
             return lon;
         }
 
@@ -62,7 +65,7 @@ namespace ap_3_ex_3.Models
         public double getLat()
         {
             string response = sendStream(getLatCommand);
-            double lat = makeDouble(response);
+            lat = makeDouble(response);
             return lat;
         }
 

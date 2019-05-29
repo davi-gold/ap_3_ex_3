@@ -3,57 +3,44 @@
     ViewBag.Title = "display";
 }
 
+<!DOCTYPE html>
 <html>
 <head>
-    <style>
-        img, canvas {
-            min-height: 100%;
-            min-width: 100%;
-            height: 100%;
-            width: 100%;
-            position: absolute;
-            top: -100%;
-            bottom: -100%;
-            left: -100%;
-            right: -100%;
-            margin: auto;
-            z-index: -1;
-        }
-
-        html, body {
-            margin: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .circle {
-            position: absolute;
-            border: 1px solid black;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: #e74c3c;
-        }
-    </style>
-
+    <link href="~/Content/StyleDisplay.css" rel="stylesheet" type="text/css" />
     <script>
-        var width = screen.width;
-        var height = screen.height;
-        function normalize() {
-            var circle = document.getElementById("myCircle");
-            var lon = (parseFloat('@ViewBag.lon') + 180) * (360 / height);
-            var lat = (parseFloat('@ViewBag.lat') + 90) * (180 / width);
-            window.alert('@ViewBag.lat');
-            window.alert(lat);
-            circle.style.top = String(lon) + "px";
-            circle.style.left = String(lat) + "px";
+        function main() {
+            func = (function () {
+                $.post('@Url.Action("getLonAndLat")').done(function (xml) {
+                    var xmlDoc = $.parseXML(xml),
+                        $xml = $(xmlDoc),
+                        lon = $xml.find("Lon").text();
+                    lat = $xml.find("Lat").text();
+
+                    var c = document.getElementById("myCanvas");
+                    c.style.width = screen.width;
+                    c.style.height = screen.height;
+                    var newLon = (parseFloat(lon) + 180) * (360 / c.height);
+                    var newLat = (parseFloat(lat) + 90) * (180 / c.width);
+
+                    var ctx = c.getContext("2d");
+                    ctx.beginPath();
+                    ctx.arc(newLat, newLon, 10, 0, 2 * Math.PI);
+                    ctx.fillStyle = "red";
+                    ctx.fill();
+                    ctx.stroke();
+                });
+            });
+
+            if (@Session["timer"] != 0) {
+                var IntervalTime = 1000 / (@Session["timer"])
+                setInterval(func, IntervalTime);
+                func();
+            }
         }
     </script>
-
 </head>
-<body onload= "normalize()">
+<body onload="main()">
     <img src="~/export-map-share.png" alt="pic">
-    <div class="circle" id="myCircle"></div>
-    <canvas id="canvas"></canvas>
+    <canvas id="myCanvas"></canvas>
 </body>
 </html>
