@@ -14,6 +14,8 @@ namespace ap_3_ex_3.Models
         TcpClient tcpClient;
         const string getLonCommand = "get /position/longitude-deg\r\n";
         const string getLatCommand = "get /position/latitude-deg\r\n";
+        const string getRudCommand = "get /controls/flight/rudder\r\n";
+        const string getThrotCommand = "get /controls/engines/current-engine/throttle\r\n";
 
         public bool isConnected
         {
@@ -34,6 +36,8 @@ namespace ap_3_ex_3.Models
         public double lon { get; set; }
         public double lat { get; set; }
         public int time { get; set; }
+        public double rudder { get; set; }
+        public double throttle { get; set; }
         public Client()
         {
             isConnected = false;
@@ -67,6 +71,20 @@ namespace ap_3_ex_3.Models
             string response = sendStream(getLatCommand);
             lat = makeDouble(response);
             return lat;
+        }
+
+        public double getRudder()
+        {
+            string response = sendStream(getRudCommand);
+            rudder = makeDouble(response);
+            return rudder;
+        }
+
+        public double getThrottle()
+        {
+            string response = sendStream(getThrotCommand);
+            throttle = makeDouble(response);
+            return throttle;
         }
 
         public double makeDouble(string response)

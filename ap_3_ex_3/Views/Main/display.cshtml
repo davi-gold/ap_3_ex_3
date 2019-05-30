@@ -12,6 +12,8 @@
     <img src="~/export-map-share.png" alt="pic">
     <canvas id="myCanvas"></canvas>
     <script>
+        myCanvas.width = screen.width;
+        myCanvas.height = screen.height;
         func = (function () {
             $.ajax({
                 type: "POST", url: "@Url.Action("getLonAndLat")", success: function (xml) {
@@ -19,26 +21,13 @@
                         $xml = $(xmlDoc),
                         lon = $xml.find("Lon").text();
                     lat = $xml.find("Lat").text();
-
                     var c = document.getElementById("myCanvas");
-                    c.style.width = screen.width;
-                    c.style.height = screen.height;
                     var pLon = parseFloat(lon);
                     var pLat = parseFloat(lat);
-                    alert("LON: " + pLon);
-                    alert("LAT: " + pLat);
-                    var newLon = (pLon + 180) * (360 / c.height);
-                    var newLat = (pLat + 90) * (180 / c.width);
+                    var newLon = (pLon + 180) * (360 / screen.height);
+                    var newLat = (pLat + 90) * (180 / screen.width);
                     var ctx = c.getContext("2d");
                     ctx.beginPath();
-                    alert("NEW LON: " +newLon);
-                    alert("NEW LAT: " + newLat);
-                    alert("LAT IS NEGATIVE. LON IS OUT OFF SCREEN. CHANGING...")
-                    newLon -= 383;
-                    newLat += 140;
-                    alert("NEW LON AFTER CHANGE: " + newLon);
-                    alert("NEW LAT AFTER CHANGE: " + newLat);
-                   
                     ctx.arc(newLon, newLat, 5, 0, 2 * Math.PI); // drawing the circle
                     ctx.fillStyle = "red";
                     ctx.fill();
