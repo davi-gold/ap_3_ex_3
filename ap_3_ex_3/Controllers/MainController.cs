@@ -53,7 +53,7 @@ namespace ap_3_ex_3.Controllers
                 Session["timer"] = port_time;
             }
             //these two paramters are usless here so i'm automatically assigning them 0
-            Session["lenght"] = 0;
+            Session["length"] = 0;
             Session["fname"] = 0;
             return View();
         }
