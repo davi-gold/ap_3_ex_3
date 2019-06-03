@@ -23,8 +23,8 @@ namespace ap_3_ex_3
                 {
                     controller = "Main",
                     action = "display",
-                    ip = "127.0.0.1",
-                    port = "5400",
+                    ip_fname = "127.0.0.1",
+                    port_time = "5400",
                     time = UrlParameter.Optional,
                 });
 

@@ -25,7 +25,7 @@ namespace ap_3_ex_3.Controllers
             //TAKE THIS OUT OF COMMENT
             //Models.Client.Instance.connect(ip, port);
             Session["timer"] = time;
-            Session["lenght"] = length;
+            Session["length"] = length;
             Session["fname"] = 1;
             Models.Client.Instance.fname = fname;
             return View("display");
