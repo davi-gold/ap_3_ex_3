@@ -39,6 +39,7 @@ namespace ap_3_ex_3.Models
         public double rudder { get; set; }
         public double throttle { get; set; }
         public string fname { get; set; }
+        public bool is4 {get; set;}
         public Client()
         {
             isConnected = false;
@@ -61,30 +62,38 @@ namespace ap_3_ex_3.Models
 
         public double getLon()
         {
-            string response = sendStream(getLonCommand);
-            lon = makeDouble(response);
+            //NEED TO TAKE THIS OUT OF COMMENT
+            //string response = sendStream(getLonCommand);
+            //lon = makeDouble(response);
+            lon = randDouble();
             return lon;
         }
 
 
         public double getLat()
         {
-            string response = sendStream(getLatCommand);
-            lat = makeDouble(response);
+            //NEED TO TAKE THIS OUT OF COMMENT
+            //string response = sendStream(getLatCommand);
+            //lat = makeDouble(response);
+            lat = randDouble();
             return lat;
         }
 
         public double getRudder()
         {
-            string response = sendStream(getRudCommand);
-            rudder = makeDouble(response);
+            //NEED TO TAKE THIS OUT OF COMMENT
+            //string response = sendStream(getRudCommand);
+            //rudder = makeDouble(response);
+            rudder = randDouble();
             return rudder;
         }
 
         public double getThrottle()
         {
-            string response = sendStream(getThrotCommand);
-            throttle = makeDouble(response);
+            //NEED TO TAKE THIS OUT OF COMMENT
+            //string response = sendStream(getThrotCommand);
+            //throttle = makeDouble(response);
+            throttle = randDouble();
             return throttle;
         }
 
@@ -125,28 +134,36 @@ namespace ap_3_ex_3.Models
 
         public void writeToFile()
         {
-            string path = HttpContext.Current.Server.MapPath(String.Format(SCENARIO_FILE, fname));
-            if (!File.Exists(path))
-            {
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(path, true))
-                {
-                    writeHelp(file, "Lon: ", lon.ToString());
-                    writeHelp(file, "LatL ", lat.ToString());
-                    writeHelp(file, "Rudder: ", rudder.ToString());
-                    writeHelp(file, "Throttle: ", throttle.ToString());
-                }
-            }
-            else
-            {
-                string[] lines = System.IO.File.ReadAllLines(path);        // reading all the lines of the file
+            string filePath = AppDomain.CurrentDomain.BaseDirectory + @"\" + fname + ".txt";
 
+            using (StreamWriter streamWriter = System.IO.File.AppendText(filePath))
+            {
+                streamWriter.WriteLine(Convert.ToString(lon) + ',' + Convert.ToString(lat) + 
+                    ',' + Convert.ToString(throttle) + ',' + Convert.ToString(rudder));
             }
         }
 
-        public void writeHelp(System.IO.StreamWriter file, string name, string value)
+        public double randDouble()
         {
-            //byte[] bytes = Encoding.ASCII.GetBytes(name + lon.ToString() + "\n");
-            file.Write(value, 0, value.Length);
+            Random random = new Random();
+            return random.NextDouble() * 700;
+        }
+
+        public string[] readFlightInfo()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"\" + fname + ".txt";
+            string[] data = System.IO.File.ReadAllLines(path);
+            return data;
+        }
+
+        public string lonFromFile()
+        {
+            return readFlightInfo()[0];
+        }
+
+        public string latFromFile()
+        {
+            return readFlightInfo()[1];
         }
     }
 }

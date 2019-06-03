@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -20,40 +19,35 @@ namespace ap_3_ex_3.Controllers
         public bool is4;
 
         [HttpGet]
-        public ActionResult save(string ip, int port, int time, int length, string fname)
+        public ActionResult display(string ip, int port, int? time, int? length, string fName, int? time2)
         {
+            if(fName == null)
+            {
+                Session["fname"] = 0;
+            }
+            else{
+                Models.Client.Instance.fname = fName;
+                Session["fname"] = 1;
+            }
             //TAKE THIS OUT OF COMMENT
             //Models.Client.Instance.connect(ip, port);
-            Session["timer"] = time;
-            Session["lenght"] = length;
-            Session["fname"] = 1;
-            Models.Client.Instance.fname = fname;
-            return View("display");
-        }
+            if (time == null)
+                Session["timer"] = 0;
+            else
+                Session["timer"] = time;
 
-        [HttpGet]
-        public ActionResult display(string ip_fname, int port_time, int? time)
-        {
-            try
+            if (time2 == null)
             {
-                //is 1 or 2
-                IPAddress ipTest = IPAddress.Parse(ip_fname);
+                Session["timer"] = 0;
+                Session["tempRun"] = 0;
                 is4 = false;
-                //TAKE THIS OUT OF COMMENT
-                //Models.Client.Instance.connect(ip, port);
-                if (time == null)
-                    Session["timer"] = 0;
-                else
-                    Session["timer"] = time;
             }
-            catch
+            else
             {
-                Models.Client.Instance.is4 = true;
-                Session["timer"] = port_time;
+                Session["timer"] = time2;
+                Session["tempRun"] = 1;
+                is4 = true;
             }
-            //these two paramters are usless here so i'm automatically assigning them 0
-            Session["lenght"] = 0;
-            Session["fname"] = 0;
             return View();
         }
 
@@ -62,12 +56,10 @@ namespace ap_3_ex_3.Controllers
         {
             string lon;
             string lat;
-            if (Models.Client.Instance.is4)
+            if (is4)
             {
-                if((lon = Models.Client.Instance.lonFromFile())==null)
-                    lon = "#";
-                if ((lat = Models.Client.Instance.latFromFile()) == null)
-                    lat = "#";
+                lon = Models.Client.Instance.lonFromFile();
+                lat = Models.Client.Instance.latFromFile();
             }
             else
             {

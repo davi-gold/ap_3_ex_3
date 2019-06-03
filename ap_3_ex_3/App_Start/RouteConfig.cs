@@ -18,7 +18,7 @@ namespace ap_3_ex_3
             url: "{action}/{id}",
             defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }
         );
-            routes.MapRoute("display", "display/{ip}/{port}/{time}/{fname}",
+            routes.MapRoute("display", "display/{ip_fname}/{port_time}/{time}",
                 defaults: new
                 {
                     controller = "Main",
@@ -26,8 +26,20 @@ namespace ap_3_ex_3
                     ip = "127.0.0.1",
                     port = "5400",
                     time = UrlParameter.Optional,
-                    fname = UrlParameter.Optional
                 });
+
+            routes.MapRoute("save", "save/{ip}/{port}/{time}/{length}/{fname}",
+                defaults: new
+                {
+                    controller = "Main",
+                    action = "save",
+                    ip = "127.0.0.1",
+                    port = "5400",
+                    time = UrlParameter.Optional,
+                    length = UrlParameter.Optional,
+                    fname = UrlParameter.Optional,
+                });
+
         }
 
     }
