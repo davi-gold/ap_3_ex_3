@@ -149,21 +149,43 @@ namespace ap_3_ex_3.Models
             return random.NextDouble() * 700;
         }
 
+        public string[] data;
         public string[] readFlightInfo()
         {
             string path = AppDomain.CurrentDomain.BaseDirectory + @"\" + fname + ".txt";
-            string[] data = System.IO.File.ReadAllLines(path);
+            data = System.IO.File.ReadAllLines(path);
             return data;
         }
 
         public string lonFromFile()
         {
-            return readFlightInfo()[0];
+            if(data == null)
+            {
+                readFlightInfo();
+            }
+            try
+            {
+                string[] words = data[0].Split(',');
+                return words[0];
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public string latFromFile()
         {
-            return readFlightInfo()[1];
+            try
+            {
+                string[] words = data[0].Split(',');
+                data = data.Where(w => w != data[0]).ToArray();
+                return words[1];
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

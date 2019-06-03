@@ -38,7 +38,7 @@ namespace ap_3_ex_3.Controllers
             {
                 //is 1 or 2
                 IPAddress ipTest = IPAddress.Parse(ip_fname);
-                is4 = false;
+                Models.Client.Instance.is4 = false;
                 //TAKE THIS OUT OF COMMENT
                 //Models.Client.Instance.connect(ip, port);
                 if (time == null)
@@ -49,6 +49,7 @@ namespace ap_3_ex_3.Controllers
             catch
             {
                 Models.Client.Instance.is4 = true;
+                Models.Client.Instance.fname = ip_fname;
                 Session["timer"] = port_time;
             }
             //these two paramters are usless here so i'm automatically assigning them 0
