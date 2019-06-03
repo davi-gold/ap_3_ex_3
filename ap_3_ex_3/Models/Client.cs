@@ -146,7 +146,7 @@ namespace ap_3_ex_3.Models
         public void writeHelp(System.IO.StreamWriter file, string name, string value)
         {
             //byte[] bytes = Encoding.ASCII.GetBytes(name + lon.ToString() + "\n");
-            file.Write(value, 0, bytes.Length);
+            file.Write(value, 0, value.Length);
         }
     }
 }
