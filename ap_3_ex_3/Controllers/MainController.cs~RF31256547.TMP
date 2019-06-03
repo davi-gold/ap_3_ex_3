@@ -19,13 +19,8 @@ namespace ap_3_ex_3.Controllers
         [HttpGet]
         public ActionResult display(string ip, int port, int? time, int? length, string fName)
         {
-            if(fName == null)
-            {
-                Session["fname"] = 0;
-            }
-            else{
+            if (fName != null) {
                 Models.Client.Instance.fname = fName;
-                Session["fname"] = 1;
             }
             //TAKE THIS OUT OF COMMENT
            // Models.Client.Instance.connect(ip, port);
@@ -94,7 +89,7 @@ namespace ap_3_ex_3.Controllers
         public void WriteFlightData()
         {
             //will be called from view ever x amount of time
-            Models.Client.Instance.writeToFile();
+            WriteFlightData();
         }
     }
 }

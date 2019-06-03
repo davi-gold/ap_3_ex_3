@@ -38,6 +38,7 @@ namespace ap_3_ex_3.Models
         public int time { get; set; }
         public double rudder { get; set; }
         public double throttle { get; set; }
+        public string fname { get; set; }
         public Client()
         {
             isConnected = false;
@@ -118,6 +119,34 @@ namespace ap_3_ex_3.Models
         {
             isConnected = false;
             tcpClient.Close();
+        }
+
+        public const string SCENARIO_FILE = "~/App_Data/{0}.txt";
+
+        public void writeToFile()
+        {
+            string path = HttpContext.Current.Server.MapPath(String.Format(SCENARIO_FILE, fname));
+            if (!File.Exists(path))
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(path, true))
+                {
+                    writeHelp(file, "Lon: ", lon.ToString());
+                    writeHelp(file, "LatL ", lat.ToString());
+                    writeHelp(file, "Rudder: ", rudder.ToString());
+                    writeHelp(file, "Throttle: ", throttle.ToString());
+                }
+            }
+            else
+            {
+                string[] lines = System.IO.File.ReadAllLines(path);        // reading all the lines of the file
+
+            }
+        }
+
+        public void writeHelp(System.IO.StreamWriter file, string name, string value)
+        {
+            //byte[] bytes = Encoding.ASCII.GetBytes(name + lon.ToString() + "\n");
+            file.Write(value, 0, bytes.Length);
         }
     }
 }

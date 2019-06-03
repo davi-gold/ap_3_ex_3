@@ -33,8 +33,15 @@
                     ctx.fill();
                     ctx.stroke();
                     ctx.closePath();
-                }});               
+                }
             });
+            if (@Session["fname"]!=0) {
+               $.post("@Url.Action("WriteFlightData")").done(function () {
+                    var nothing = 1;
+                });
+            }
+        });
+
         if (@Session["timer"] != 0) {
                 var IntervalTime = 1000 / (@Session["timer"])
                 setInterval(func, IntervalTime);
